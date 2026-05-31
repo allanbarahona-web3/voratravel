@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── USERS & AUTH ────────────────────────────────────────────────────────────
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  password    String
+  name        String
+  phone       String?
+  role        Role      @default(USER)
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+  AGENT
+}
+
+// ─── TOURS ───────────────────────────────────────────────────────────────────
+
+model Tour {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  category     TourCategory
+  featured     Boolean       @default(false)
+  active       Boolean       @default(true)
+  image        String
+  gallery      String[]
+  titleEs      String
+  titleEn      String
+  subtitleEs   String
+  subtitleEn   String
+  descriptionEs String       @db.Text
+  descriptionEn String       @db.Text
+  duration     Int
+  price        Decimal       @db.Decimal(10, 2)
+  currency     String        @default("USD")
+  maxGroupSize Int           @default(20)
+  difficulty   Difficulty    @default(MODERATE)
+  rating       Decimal       @db.Decimal(3, 2) @default(5.0)
+  reviewCount  Int           @default(0)
+  destinations String[]
+  highlightsEs String[]
+  highlightsEn String[]
+  includesEs   String[]
+  includesEn   String[]
+  excludesEs   String[]
+  excludesEn   String[]
+  badgeEs      String?
+  badgeEn      String?
+  itinerary    ItineraryDay[]
+  tourDates    TourDate[]
+  bookings     Booking[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("tours")
+}
+
+enum TourCategory {
+  COSTA_RICA
+  EUROPE
+  CENTRAL_AMERICA
+}
+
+enum Difficulty {
+  EASY
+  MODERATE
+  CHALLENGING
+}
+
+model ItineraryDay {
+  id            String   @id @default(cuid())
+  tour          Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId        String
+  day           Int
+  location      String
+  titleEs       String
+  titleEn       String
+  descriptionEs String   @db.Text
+  descriptionEn String   @db.Text
+  activitiesEs  String[]
+  activitiesEn  String[]
+  overnightEs   String
+  overnightEn   String
+
+  @@map("itinerary_days")
+}
+
+model TourDate {
+  id          String    @id @default(cuid())
+  tour        Tour      @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId      String
+  date        DateTime
+  available   Boolean   @default(true)
+  spotsLeft   Int
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+
+  @@map("tour_dates")
+}
+
+// ─── BOOKINGS ────────────────────────────────────────────────────────────────
+
+model Booking {
+  id              String        @id @default(cuid())
+  user            User?         @relation(fields: [userId], references: [id])
+  userId          String?
+  tour            Tour?         @relation(fields: [tourId], references: [id])
+  tourId          String?
+  tourDate        TourDate?     @relation(fields: [tourDateId], references: [id])
+  tourDateId      String?
+  insurance       InsurancePlan? @relation(fields: [insuranceId], references: [id])
+  insuranceId     String?
+  status          BookingStatus @default(PENDING)
+  guestName       String
+  guestEmail      String
+  guestPhone      String?
+  guestCountry    String?
+  numTravelers    Int           @default(1)
+  totalAmount     Decimal       @db.Decimal(10, 2)
+  currency        String        @default("USD")
+  depositPaid     Boolean       @default(false)
+  notes           String?       @db.Text
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  PAID
+  CANCELLED
+  COMPLETED
+}
+
+enum HeroCtaActionType {
+  BOOK_NOW
+  CONTACT_ADVISOR
+}
+
+// ─── INSURANCE ───────────────────────────────────────────────────────────────
+
+model InsurancePlan {
+  id               String     @id @default(cuid())
+  nameEs           String
+  nameEn           String
+  descriptionEs    String
+  descriptionEn    String
+  pricePerDay      Decimal    @db.Decimal(6, 2)
+  maxCoverage      Decimal    @db.Decimal(12, 2)
+  recommended      Boolean    @default(false)
+  active           Boolean    @default(true)
+  featuresEs       String[]
+  featuresEn       String[]
+  bookings         Booking[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@map("insurance_plans")
+}
+
+// ─── CONTACT LEADS ───────────────────────────────────────────────────────────
+
+model ContactLead {
+  id          String    @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  destination String?
+  message     String    @db.Text
+  locale      String    @default("es")
+  responded   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  @@map("contact_leads")
+}
+
+model HeroCtaLead {
+  id           String            @id @default(cuid())
+  actionType   HeroCtaActionType
+  tourSlug     String
+  tourName     String
+  selectedDate String?
+  sourcePage   String
+  locale       String            @default("es")
+  createdAt    DateTime          @default(now())
+
+  @@index([actionType, createdAt])
+  @@index([tourSlug, createdAt])
+  @@map("hero_cta_leads")
+}

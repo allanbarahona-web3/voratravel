@@ -1,0 +1,28 @@
+{
+  "name": "voratravel",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:frontend\" \"pnpm dev:backend\"",
+    "dev:frontend": "pnpm --filter voratravel-frontend dev",
+    "dev:backend": "pnpm --filter voratravel-backend start:dev",
+    "build": "pnpm --filter voratravel-frontend build && pnpm --filter voratravel-backend build",
+    "lint": "pnpm --filter voratravel-frontend lint && pnpm --filter voratravel-backend lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma",
+      "unrs-resolver"
+    ]
+  }
+}
