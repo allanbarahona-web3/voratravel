@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Check, Shield, ChevronRight, User, MapPin, Calendar, Users, CheckCircle } from 'lucide-react'
-import { insurancePlans } from '@/lib/data'
+import { Check, Shield, ChevronRight, User, MapPin, Calendar, Users } from 'lucide-react'
+import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import type { InsurancePlan } from '@/types'
 
 type Locale = 'es' | 'en'
 
 interface QuoteFormData {
+  tripScope: 'domestic' | 'international'
   // Trip details
   destination: string
   departureDate: string
@@ -25,6 +26,7 @@ interface QuoteFormData {
 }
 
 const initialForm: QuoteFormData = {
+  tripScope: 'international',
   destination: '',
   departureDate: '',
   returnDate: '',
@@ -34,8 +36,143 @@ const initialForm: QuoteFormData = {
   phone: '',
   nationality: '',
   birthDate: '',
-  planId: 'ins-standard',
+  planId: 'intl-150000',
 }
+
+const domesticPlans: InsurancePlan[] = [
+  {
+    id: 'dom-6000',
+    name: { es: 'Nacional 6,000', en: 'Domestic 6,000' },
+    description: {
+      es: 'Cobertura fija para viajes internos en Costa Rica',
+      en: 'Fixed coverage for domestic trips in Costa Rica',
+    },
+    pricePerDay: 3.5,
+    maxCoverage: 6000,
+    recommended: false,
+    features: {
+      es: ['Asistencia medica en viaje nacional', 'Cobertura de emergencia', 'Soporte durante el viaje'],
+      en: ['Domestic travel medical assistance', 'Emergency coverage', 'Travel support during the trip'],
+    },
+  },
+  {
+    id: 'dom-10000',
+    name: { es: 'Nacional 10,000', en: 'Domestic 10,000' },
+    description: {
+      es: 'Cobertura fija con mayor respaldo en viaje interno',
+      en: 'Fixed coverage with increased support for domestic travel',
+    },
+    pricePerDay: 4.75,
+    maxCoverage: 10000,
+    recommended: true,
+    features: {
+      es: ['Asistencia medica ampliada', 'Traslados y emergencias', 'Soporte 24/7'],
+      en: ['Extended medical assistance', 'Transport and emergencies', '24/7 support'],
+    },
+  },
+  {
+    id: 'dom-20000',
+    name: { es: 'Nacional 20,000', en: 'Domestic 20,000' },
+    description: {
+      es: 'Cobertura fija alta para viaje nacional',
+      en: 'High fixed coverage for domestic travel',
+    },
+    pricePerDay: 6.75,
+    maxCoverage: 20000,
+    recommended: false,
+    features: {
+      es: ['Cobertura nacional premium', 'Emergencias medicas de mayor costo', 'Asistencia prioritaria'],
+      en: ['Premium domestic coverage', 'Higher-cost medical emergencies', 'Priority assistance'],
+    },
+  },
+]
+
+const internationalPlans: InsurancePlan[] = [
+  {
+    id: 'intl-35000',
+    name: { es: 'Internacional 35,000', en: 'International 35,000' },
+    description: { es: 'Cobertura internacional fija', en: 'Fixed international coverage' },
+    pricePerDay: 0,
+    maxCoverage: 35000,
+    recommended: false,
+    features: {
+      es: ['Asistencia medica internacional', 'COVID-19 segun plan', 'Repatriacion segun plan'],
+      en: ['International medical assistance', 'COVID-19 according to plan', 'Repatriation according to plan'],
+    },
+  },
+  {
+    id: 'intl-60000',
+    name: { es: 'Internacional 60,000', en: 'International 60,000' },
+    description: { es: 'Cobertura internacional fija', en: 'Fixed international coverage' },
+    pricePerDay: 0,
+    maxCoverage: 60000,
+    recommended: false,
+    features: {
+      es: ['Asistencia medica internacional', 'Equipaje y documentos', 'Soporte 24/7'],
+      en: ['International medical assistance', 'Baggage and documents', '24/7 support'],
+    },
+  },
+  {
+    id: 'intl-150000',
+    name: { es: 'Internacional 150,000', en: 'International 150,000' },
+    description: { es: 'Cobertura internacional fija', en: 'Fixed international coverage' },
+    pricePerDay: 0,
+    maxCoverage: 150000,
+    recommended: true,
+    features: {
+      es: ['Asistencia medica internacional', 'Cancelacion/interrupcion segun plan', 'Asistencia legal basica'],
+      en: ['International medical assistance', 'Cancellation/interruption by plan', 'Basic legal assistance'],
+    },
+  },
+  {
+    id: 'intl-250000',
+    name: { es: 'Internacional 250,000', en: 'International 250,000' },
+    description: { es: 'Cobertura internacional fija', en: 'Fixed international coverage' },
+    pricePerDay: 0,
+    maxCoverage: 250000,
+    recommended: false,
+    features: {
+      es: ['Cobertura medica ampliada', 'Emergencias complejas', 'Repatriacion avanzada'],
+      en: ['Extended medical coverage', 'Complex emergencies', 'Advanced repatriation'],
+    },
+  },
+  {
+    id: 'intl-500000',
+    name: { es: 'Internacional 500,000', en: 'International 500,000' },
+    description: { es: 'Cobertura internacional fija', en: 'Fixed international coverage' },
+    pricePerDay: 0,
+    maxCoverage: 500000,
+    recommended: false,
+    features: {
+      es: ['Cobertura de alto monto', 'Asistencia prioritaria', 'Soporte premium'],
+      en: ['High-amount coverage', 'Priority assistance', 'Premium support'],
+    },
+  },
+  {
+    id: 'intl-1000000',
+    name: { es: 'Internacional 1,000,000', en: 'International 1,000,000' },
+    description: { es: 'Cobertura internacional fija', en: 'Fixed international coverage' },
+    pricePerDay: 0,
+    maxCoverage: 1000000,
+    recommended: false,
+    features: {
+      es: ['Cobertura elite internacional', 'Asistencia integral', 'Soporte 24/7 premium'],
+      en: ['Elite international coverage', 'Comprehensive assistance', '24/7 premium support'],
+    },
+  },
+  {
+    id: 'intl-3000000',
+    name: { es: 'Internacional 3,000,000', en: 'International 3,000,000' },
+    description: { es: 'Cobertura internacional fija', en: 'Fixed international coverage' },
+    pricePerDay: 0,
+    maxCoverage: 3000000,
+    recommended: false,
+    features: {
+      es: ['Cobertura maxima internacional', 'Asistencia de mayor alcance', 'Gestion de emergencias mayores'],
+      en: ['Maximum international coverage', 'Wider assistance scope', 'Major-emergency management'],
+    },
+  },
+]
 
 function calcDays(departure: string, returnDate: string): number {
   if (!departure || !returnDate) return 0
@@ -57,16 +194,29 @@ function calcAge(birthDate: string): number | null {
 export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
   const t = useTranslations('insurance')
   const [form, setForm] = useState<QuoteFormData>(initialForm)
-  const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState<Partial<Record<keyof QuoteFormData, string>>>({})
 
   const days = calcDays(form.departureDate, form.returnDate)
-  const selectedPlan = insurancePlans.find((p) => p.id === form.planId) ?? insurancePlans[1]
-  const totalPrice = days > 0 ? (selectedPlan.pricePerDay * days * form.travelers).toFixed(2) : null
+  const plans = form.tripScope === 'domestic' ? domesticPlans : internationalPlans
+  const selectedPlan = plans.find((p) => p.id === form.planId) ?? plans[0]
+  const totalPrice =
+    days > 0 && selectedPlan.pricePerDay > 0
+      ? (selectedPlan.pricePerDay * days * form.travelers).toFixed(2)
+      : null
 
   function set<K extends keyof QuoteFormData>(key: K, value: QuoteFormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
     setErrors((prev) => ({ ...prev, [key]: undefined }))
+  }
+
+  function setTripScope(scope: 'domestic' | 'international') {
+    const scopePlans = scope === 'domestic' ? domesticPlans : internationalPlans
+    setForm((prev) => ({
+      ...prev,
+      tripScope: scope,
+      planId: scopePlans[0].id,
+    }))
   }
 
   function validate(): boolean {
@@ -88,67 +238,58 @@ export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
     return Object.keys(newErrors).length === 0
   }
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (validate()) setSubmitted(true)
+  function formatDate(date: string): string {
+    if (!date) return '—'
+    return new Date(`${date}T12:00:00`).toLocaleDateString(locale === 'es' ? 'es-CR' : 'en-US', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
   }
 
-  if (submitted) {
-    return (
-      <div className="flex flex-col items-center justify-center py-24 text-center">
-        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-          <CheckCircle className="w-10 h-10 text-green-500" />
-        </div>
-        <h2 className="font-display text-3xl font-bold text-brand-navy mb-3">
-          {locale === 'es' ? '¡Cotización enviada!' : 'Quote sent!'}
-        </h2>
-        <p className="text-gray-500 max-w-md mb-2">
-          {locale === 'es'
-            ? `Gracias ${form.fullName}. Hemos recibido tu solicitud para el ${selectedPlan.name.es}.`
-            : `Thank you ${form.fullName}. We received your request for the ${selectedPlan.name.en}.`}
-        </p>
-        <p className="text-gray-400 text-sm max-w-md mb-8">
-          {locale === 'es'
-            ? 'Un asesor de Voratravel se pondrá en contacto contigo en las próximas 24 horas.'
-            : 'A Voratravel advisor will contact you within the next 24 hours.'}
-        </p>
-        <div className="bg-brand-cream rounded-2xl p-6 text-left max-w-sm w-full border border-brand-gold/20">
-          <p className="text-xs text-gray-400 uppercase tracking-wider mb-3">
-            {locale === 'es' ? 'Resumen de tu solicitud' : 'Your request summary'}
-          </p>
-          <dl className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <dt className="text-gray-500">{locale === 'es' ? 'Plan' : 'Plan'}</dt>
-              <dd className="font-semibold text-brand-navy">{selectedPlan.name[locale]}</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-gray-500">{locale === 'es' ? 'Destino' : 'Destination'}</dt>
-              <dd className="font-semibold text-brand-navy">{form.destination}</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-gray-500">{locale === 'es' ? 'Días' : 'Days'}</dt>
-              <dd className="font-semibold text-brand-navy">{days}</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-gray-500">{locale === 'es' ? 'Viajeros' : 'Travelers'}</dt>
-              <dd className="font-semibold text-brand-navy">{form.travelers}</dd>
-            </div>
-            {totalPrice && (
-              <div className="flex justify-between border-t border-brand-gold/20 pt-2 mt-2">
-                <dt className="text-gray-500">{locale === 'es' ? 'Total estimado' : 'Estimated total'}</dt>
-                <dd className="font-bold text-brand-gold text-base">${totalPrice}</dd>
-              </div>
-            )}
-          </dl>
-        </div>
-        <button
-          onClick={() => { setSubmitted(false); setForm(initialForm) }}
-          className="mt-6 text-sm text-brand-navy underline underline-offset-2"
-        >
-          {locale === 'es' ? 'Hacer otra cotización' : 'Make another quote'}
-        </button>
-      </div>
-    )
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!validate()) return
+
+    setIsSubmitting(true)
+
+    const coverageText = days > 0
+      ? `${days} ${locale === 'es' ? `día${days > 1 ? 's' : ''}` : `day${days > 1 ? 's' : ''}`}`
+      : '—'
+
+    const message = [
+      locale === 'es'
+        ? 'Hola, quiero solicitar una cotización de seguro de viaje.'
+        : 'Hello, I want to request a travel insurance quote.',
+      '',
+      locale === 'es' ? 'Datos del viajero:' : 'Traveler details:',
+      `${locale === 'es' ? 'Nombre' : 'Name'}: ${form.fullName}`,
+      `${locale === 'es' ? 'Email' : 'Email'}: ${form.email}`,
+      `${locale === 'es' ? 'Telefono' : 'Phone'}: ${form.phone}`,
+      `${locale === 'es' ? 'Nacionalidad' : 'Nationality'}: ${form.nationality}`,
+      `${locale === 'es' ? 'Fecha de nacimiento' : 'Date of birth'}: ${form.birthDate ? formatDate(form.birthDate) : '—'}`,
+      '',
+      locale === 'es' ? 'Datos del viaje:' : 'Trip details:',
+      `${locale === 'es' ? 'Tipo de viaje' : 'Trip type'}: ${form.tripScope === 'domestic' ? (locale === 'es' ? 'Nacional' : 'Domestic') : (locale === 'es' ? 'Internacional' : 'International')}`,
+      `${locale === 'es' ? 'Destino' : 'Destination'}: ${form.destination}`,
+      `${locale === 'es' ? 'Salida' : 'Departure'}: ${formatDate(form.departureDate)}`,
+      `${locale === 'es' ? 'Regreso' : 'Return'}: ${formatDate(form.returnDate)}`,
+      `${locale === 'es' ? 'Cobertura' : 'Coverage'}: ${coverageText}`,
+      `${locale === 'es' ? 'Viajeros' : 'Travelers'}: ${form.travelers}`,
+      '',
+      locale === 'es' ? 'Plan solicitado:' : 'Requested plan:',
+      `${locale === 'es' ? 'Plan' : 'Plan'}: ${selectedPlan.name[locale]}`,
+      `${locale === 'es' ? 'Precio por dia' : 'Price per day'}: ${selectedPlan.pricePerDay > 0 ? `$${selectedPlan.pricePerDay}` : (locale === 'es' ? 'Tarifa de referencia' : 'Reference rate')}`,
+      `${locale === 'es' ? 'Cobertura maxima' : 'Max coverage'}: $${selectedPlan.maxCoverage.toLocaleString()}`,
+      totalPrice ? `${locale === 'es' ? 'Total estimado' : 'Estimated total'}: $${totalPrice}` : '',
+      locale === 'es' ? 'Nota: Tarifas de referencia sujetas a cambios.' : 'Note: Reference rates are subject to change.',
+    ]
+      .filter(Boolean)
+      .join('\n')
+
+    const whatsappUrl = buildWhatsAppUrl(message)
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+    setIsSubmitting(false)
   }
 
   return (
@@ -163,6 +304,32 @@ export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
               <MapPin size={20} className="text-brand-gold" />
               {locale === 'es' ? 'Datos del viaje' : 'Trip details'}
             </h2>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {locale === 'es' ? 'Tipo de viaje' : 'Trip type'}
+              </label>
+              <div className="inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1 gap-1">
+                <button
+                  type="button"
+                  onClick={() => setTripScope('domestic')}
+                  className={`px-4 py-2 text-sm font-semibold rounded-lg transition ${
+                    form.tripScope === 'domestic' ? 'bg-white text-brand-navy shadow-sm' : 'text-gray-500'
+                  }`}
+                >
+                  {locale === 'es' ? 'Nacional' : 'Domestic'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTripScope('international')}
+                  className={`px-4 py-2 text-sm font-semibold rounded-lg transition ${
+                    form.tripScope === 'international' ? 'bg-white text-brand-navy shadow-sm' : 'text-gray-500'
+                  }`}
+                >
+                  {locale === 'es' ? 'Internacional' : 'International'}
+                </button>
+              </div>
+            </div>
 
             {/* Destination */}
             <div>
@@ -255,10 +422,10 @@ export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
           <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
             <h2 className="font-display text-xl font-bold text-brand-navy flex items-center gap-2 mb-5">
               <Shield size={20} className="text-brand-gold" />
-              {locale === 'es' ? 'Seleccione su plan' : 'Select your plan'}
+              {locale === 'es' ? 'Seleccione su cobertura' : 'Select your coverage'}
             </h2>
             <div className="space-y-4">
-              {insurancePlans.map((plan) => (
+              {plans.map((plan) => (
                 <PlanCard
                   key={plan.id}
                   plan={plan}
@@ -373,6 +540,10 @@ export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
                 label={locale === 'es' ? 'Destino' : 'Destination'}
                 value={form.destination || '—'}
               />
+              <SummaryRow
+                label={locale === 'es' ? 'Tipo' : 'Type'}
+                value={form.tripScope === 'domestic' ? (locale === 'es' ? 'Nacional' : 'Domestic') : (locale === 'es' ? 'Internacional' : 'International')}
+              />
               {/* Dates */}
               <SummaryRow
                 label={locale === 'es' ? 'Salida' : 'Departure'}
@@ -394,7 +565,13 @@ export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
               <div className="border-t border-gray-100 pt-3">
                 <SummaryRow
                   label={locale === 'es' ? 'Precio por día' : 'Price per day'}
-                  value={`$${selectedPlan.pricePerDay} × ${form.travelers} ${locale === 'es' ? 'persona(s)' : 'person(s)'}`}
+                  value={
+                    selectedPlan.pricePerDay > 0
+                      ? `$${selectedPlan.pricePerDay} × ${form.travelers} ${locale === 'es' ? 'persona(s)' : 'person(s)'}`
+                      : locale === 'es'
+                        ? 'Tarifa de referencia'
+                        : 'Reference rate'
+                  }
                 />
               </div>
 
@@ -412,10 +589,18 @@ export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
                   </>
                 ) : (
                   <p className="text-gray-400 text-sm">
-                    {locale === 'es' ? 'Seleccione fechas para ver el total' : 'Select dates to see total'}
+                    {selectedPlan.pricePerDay > 0
+                      ? locale === 'es' ? 'Seleccione fechas para ver el total' : 'Select dates to see total'
+                      : locale === 'es' ? 'Cotizacion segun edad, destino y condiciones del plan' : 'Quote depends on age, destination and plan conditions'}
                   </p>
                 )}
               </div>
+
+              <p className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                {locale === 'es'
+                  ? 'Tarifas de referencia sujetas a cambios sin previo aviso.'
+                  : 'Reference rates are subject to change without prior notice.'}
+              </p>
 
               {/* Max coverage badge */}
               <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
@@ -428,16 +613,14 @@ export default function InsuranceQuoteForm({ locale }: { locale: Locale }) {
             <div className="px-6 pb-6">
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="btn-primary w-full justify-center py-3.5 text-base gap-2"
               >
-                {locale === 'es' ? 'Solicitar cotización' : 'Request quote'}
+                {isSubmitting
+                  ? locale === 'es' ? 'Abriendo WhatsApp...' : 'Opening WhatsApp...'
+                  : locale === 'es' ? 'Cotizar por WhatsApp' : 'Quote via WhatsApp'}
                 <ChevronRight size={18} />
               </button>
-              <p className="text-xs text-gray-400 text-center mt-3">
-                {locale === 'es'
-                  ? 'Sin costo. Un asesor te contactará en 24 h.'
-                  : 'No cost. An advisor will contact you within 24 h.'}
-              </p>
             </div>
           </div>
         </div>
