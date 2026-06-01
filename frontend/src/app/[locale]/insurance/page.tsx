@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { getLocale } from 'next-intl/server'
+import Image from 'next/image'
 import InsuranceQuoteForm from '@/components/insurance/InsuranceQuoteForm'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import { Link } from '@/i18n/navigation'
@@ -17,9 +18,13 @@ export default async function InsurancePage() {
     <>
       {/* Hero */}
       <section className="relative pt-32 pb-20 bg-brand-navy text-white overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-55"
-          style={{ backgroundImage: `url('/Seguros%20/Hero%20Adicionales%20WEB.png')` }}
+        <Image
+          src="/Seguros /Hero Adicionales WEB.png"
+          alt="Seguros de Viaje Vora Travel"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-55"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/18 via-brand-navy/12 to-brand-navy/25" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

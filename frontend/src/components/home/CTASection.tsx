@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import { buildDefaultTravelWhatsAppMessage, buildWhatsAppUrl } from '@/lib/whatsapp'
 
 export default function CTASection() {
@@ -14,11 +15,12 @@ export default function CTASection() {
   return (
     <section className="relative py-28 overflow-hidden">
       {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1920&q=80')`,
-        }}
+      <Image
+        src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1920&q=80"
+        alt="CTA Background"
+        fill
+        sizes="100vw"
+        className="object-cover"
       />
       <div className="absolute inset-0 bg-brand-navy/80" />
 

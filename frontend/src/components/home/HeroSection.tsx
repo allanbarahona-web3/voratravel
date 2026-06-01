@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Play } from 'lucide-react'
 import { useState } from 'react'
+import Image from 'next/image'
 
 export default function HeroSection() {
   const t = useTranslations('hero')
@@ -12,11 +13,13 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image Layer */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=1920&q=90')`,
-        }}
+      <Image
+        src="https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=1920&q=90"
+        alt="Hero Background"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
 
       {/* Gradient Overlay */}

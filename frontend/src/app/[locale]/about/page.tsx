@@ -56,9 +56,13 @@ export default async function AboutPage({ params }: AboutPageProps) {
     <>
       {/* Hero Section */}
       <section className="relative pt-32 pb-32 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('/images/europe-2026/hero-europa-vora-travel.webp')` }}
+        <Image
+          src="/images/europe-2026/hero-europa-vora-travel.webp"
+          alt="Vora Travel"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/80 to-brand-navy/40" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">

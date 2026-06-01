@@ -51,9 +51,13 @@ export default function ToursPage() {
     <>
       {/* Hero */}
       <section className="relative pt-32 pb-20 bg-brand-navy">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1529260830199-42c24126f198?w=1920&q=80')` }}
+        <Image
+          src="https://images.unsplash.com/photo-1529260830199-42c24126f198?w=1920&q=80"
+          alt="Tours Vora Travel"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-20"
         />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-5 py-2 mb-6 text-sm font-medium">
