@@ -4,6 +4,7 @@ import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
 import { MapPin, Phone, Mail, Instagram, Facebook, Youtube } from 'lucide-react'
 import { getPublishedTours, getTourHref } from '@/lib/data'
+import { AGENCY_PHONE_DISPLAY_INTL, AGENCY_PHONE_E164 } from '@/lib/whatsapp'
 
 export default function Footer() {
   const t = useTranslations('footer')
@@ -32,11 +33,11 @@ export default function Footer() {
               {t('tagline')}
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://instagram.com/voratravel" target="_blank" rel="noopener noreferrer"
+              <a href="https://instagram.com/voratravelcr" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-gold flex items-center justify-center transition-colors duration-200">
                 <Instagram size={16} />
               </a>
-              <a href="https://facebook.com/voratravel" target="_blank" rel="noopener noreferrer"
+              <a href="https://facebook.com/voratravelcr" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-gold flex items-center justify-center transition-colors duration-200">
                 <Facebook size={16} />
               </a>
@@ -102,8 +103,8 @@ export default function Footer() {
               <li className="flex items-start gap-3 text-gray-300 text-sm">
                 <Phone size={16} className="text-brand-gold mt-0.5 shrink-0" />
                 <div className="space-y-1">
-                  <a href="tel:+50670484949" className="block hover:text-brand-gold-light transition-colors">
-                    🇨🇷 +506 7048 4949
+                  <a href={`tel:${AGENCY_PHONE_E164}`} className="block hover:text-brand-gold-light transition-colors">
+                    🇨🇷 {AGENCY_PHONE_DISPLAY_INTL}
                   </a>
                   <a href="tel:+447735701311" className="block hover:text-brand-gold-light transition-colors">
                     🇬🇧 +44 7735 701311
@@ -125,7 +126,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-gray-400 text-xs">
-            Voratravel by Barmentech LLC - Barmentech Web Design
+            @2026 Vora Travel by Barmentech LLC - Barmentech Web Design
           </p>
           <div className="flex items-center gap-6 text-xs text-gray-400">
             <Link href="/" className="hover:text-brand-gold-light transition-colors">

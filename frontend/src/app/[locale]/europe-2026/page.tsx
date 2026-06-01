@@ -460,7 +460,7 @@ export default async function Europe2026Page({ params }: EuropePageProps) {
   )
 
   const introBullets = isEs
-    ? ['ciudades imperiales', 'trenes panorámicos', 'Alpes Suizos', 'gastronomía italiana y española', 'castillos', 'pueblos europeos', 'lagos alpinos', 'historia y cultura']
+    ? ['Ciudades imperiales', 'Trenes panorámicos', 'Alpes suizos', 'Gastronomía italiana y española', 'Castillos', 'Pueblos europeos', 'Lagos alpinos', 'Historia y cultura']
     : ['imperial cities', 'panoramic trains', 'Swiss Alps', 'Italian and Spanish gastronomy', 'castles', 'European villages', 'alpine lakes', 'history and culture']
 
   const includes = isEs
@@ -468,21 +468,23 @@ export default async function Europe2026Page({ params }: EuropePageProps) {
         'Tiquetes aéreos internacionales e internos',
         'Tren de alta velocidad Roma → Milán',
         'Experiencia Bernina Express',
-        'Hospedaje en hoteles categoría 3 estrellas',
-        'Entrada al Coliseo Romano y Foro Romano',
-        'Tour al Lago Bled',
+        'Hospedaje en hoteles o Airbnb con acomodaciones dobles o triples',
+        'Entrada al Coliseo Romano y Foro Romano sujeto a disponibilidad',
+        'Tour al Lago Blede Iglesia de la Asunción y Castillo de Bled',
         'Artículo personal incluido',
-        'Acompañamiento durante el recorrido',
+        'Seguro de asistencia medica y viaje obligatorio incluido',
+        'Acompañamiento en español e inglés durante todo el recorrido',
       ]
     : [
         'International and internal flights',
         'High-speed train Rome → Milan',
         'Bernina Express experience',
-        '3-star hotel accommodation',
-        'Colosseum and Roman Forum entry',
-        'Lake Bled tour',
+        'Accommodation in hotels or Airbnb with double or triple rooms',
+        'Colosseum and Roman Forum entry subject to availability',
+        'Lake Bled Assumption Church and Bled Castle tour',
         'Personal item included',
-        'Assistance during the route',
+        'Mandatory medical and travel assistance insurance included',
+        'Assistance in Spanish and English throughout the route',
       ]
 
   const optionalByDate: Record<string, string[]> = {
@@ -707,8 +709,8 @@ export default async function Europe2026Page({ params }: EuropePageProps) {
             <h2 className="font-display text-3xl font-bold text-[#F4D89F]">{isEs ? 'HOSPEDAJE Y EQUIPAJE' : 'HOTELS AND LUGGAGE'}</h2>
             <p className="mt-4 text-sm leading-relaxed text-white/85 sm:text-base">
               {isEs
-                ? 'Durante el recorrido nos hospedaremos en hoteles categoría 3 estrellas cuidadosamente seleccionados por ubicación, comodidad y conexión con estaciones de tren y principales atractivos turísticos.'
-                : 'During the route, we stay in carefully selected 3-star hotels for location, comfort and connectivity with train stations and main attractions.'}
+                ? 'Durante el recorrido nos hospedaremos en hoteles o Airbnb cuidadosamente seleccionados por ubicación, comodidad y conexión con estaciones de tren y principales atractivos turísticos.'
+                : 'During the route, we stay in carefully selected hotels or Airbnb for location, comfort and connectivity with train stations and main attractions.'}
             </p>
             <ul className="mt-4 grid gap-2 text-sm text-white/85 sm:grid-cols-2">
               {(isEs ? ['céntricos', 'seguros', 'cómodos para grupos', 'cercanos al transporte público', 'bien conectados'] : ['central', 'safe', 'group-friendly', 'close to public transport', 'well connected']).map((item) => (
@@ -731,20 +733,23 @@ export default async function Europe2026Page({ params }: EuropePageProps) {
                 ? [
                     'Septiembre es una excelente época para recorrer Europa.',
                     'Recomendamos llevar zapato cómodo.',
-                    'Adaptador europeo recomendado.',
-                    'Seguro de viaje recomendado.',
+                    'Adaptador europeo recomendado, sino tienes, te lo proporcionamos por un costo minimo adicional.',
+                    'Seguro de asistencia medica y viaje obligatorio incluido.',
                     'El orden del itinerario puede variar por logística operativa.',
                     'Horarios finales serán confirmados previo a la salida.',
+                    'El paquete debe estar cancelado en su totalidad 22 días antes de la salida.',
                     'Algunas actividades pueden variar según clima o disponibilidad.',
+                    'La reserva NO es reembolsable.',
                   ]
                 : [
                     'September is an excellent time to travel Europe.',
                     'Comfortable shoes are recommended.',
-                    'European adapter recommended.',
-                    'Travel insurance recommended.',
+                    'European adapter recommended, if you don\'t have one, we provide it for a minimal additional cost.',
+                    'Medical and travel insurance mandatory included.',
                     'The itinerary order can vary due to operational logistics.',
                     'Final schedules are confirmed before departure.',
                     'Some activities may vary due to weather or availability.',
+                    'The reservation is NON-refundable.',
                   ]).map((item) => (
                 <li key={item} className="rounded-xl bg-white/5 px-4 py-3">{item}</li>
               ))}

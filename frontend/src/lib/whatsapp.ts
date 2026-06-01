@@ -15,7 +15,26 @@ interface BuildTourWhatsAppMessageParams {
   depositAmount?: string
 }
 
-const WHATSAPP_NUMBER = '50670484949'
+const DEFAULT_AGENCY_WHATSAPP_E164 = '50670484949'
+
+function normalizePhoneNumber(value: string): string {
+  return value.replace(/\D/g, '')
+}
+
+const configuredWhatsAppNumber = normalizePhoneNumber(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '')
+export const AGENCY_WHATSAPP_E164 = configuredWhatsAppNumber || DEFAULT_AGENCY_WHATSAPP_E164
+
+const crLocalDigits = AGENCY_WHATSAPP_E164.startsWith('506') && AGENCY_WHATSAPP_E164.length === 11
+  ? AGENCY_WHATSAPP_E164.slice(3)
+  : ''
+
+export const AGENCY_PHONE_DISPLAY_CR = crLocalDigits.length === 8
+  ? `${crLocalDigits.slice(0, 4)} ${crLocalDigits.slice(4)}`
+  : '7048 4949'
+export const AGENCY_PHONE_E164 = `+${AGENCY_WHATSAPP_E164}`
+export const AGENCY_PHONE_DISPLAY_INTL = AGENCY_WHATSAPP_E164.startsWith('506')
+  ? `+506 ${AGENCY_PHONE_DISPLAY_CR}`
+  : AGENCY_PHONE_E164
 
 function getIntentLabel(intent: WhatsAppIntent, locale: WhatsAppLocale): string {
   if (intent === 'BOOK_NOW') return locale === 'es' ? 'Reservar ahora' : 'Book now'
@@ -55,5 +74,5 @@ export function buildTourWhatsAppMessage({
 }
 
 export function buildWhatsAppUrl(message: string): string {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  return `https://wa.me/${AGENCY_WHATSAPP_E164}?text=${encodeURIComponent(message)}`
 }

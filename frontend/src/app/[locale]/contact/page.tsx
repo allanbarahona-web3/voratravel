@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { AGENCY_PHONE_DISPLAY_INTL } from '@/lib/whatsapp'
 
 export default function ContactPage() {
   const t = useTranslations('contact')
@@ -114,7 +115,7 @@ export default function ContactPage() {
                     </div>
                     <div className="space-y-1">
                       <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">{locale === 'es' ? 'Costa Rica' : 'Costa Rica'}</p>
-                      <p className="font-medium text-brand-navy text-sm">+506 7048 4949</p>
+                      <p className="font-medium text-brand-navy text-sm">{AGENCY_PHONE_DISPLAY_INTL}</p>
                       <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mt-2">{locale === 'es' ? 'Inglaterra' : 'United Kingdom'}</p>
                       <p className="font-medium text-brand-navy text-sm">+44 7735 701311</p>
                       <p className="text-gray-500 text-xs mt-1">WhatsApp {locale === 'es' ? 'disponible' : 'available'}</p>
