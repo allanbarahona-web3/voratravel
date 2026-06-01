@@ -304,6 +304,38 @@ export const tours: Tour[] = [
         overnight: { es: 'En vuelo', en: 'On board' },
       },
     ],
+    experiences: [
+      {
+        id: 'exp-001',
+        image: '/images/europe-2026/Andrea M.webp',
+        quote: {
+          es: '"El Lago Bled fue uno de los lugares más impresionantes de todo el recorrido. La iglesia reflejada en el agua, simplemente mágico."',
+          en: '"Lake Bled was one of the most impressive places of the entire trip. The church reflected in the water, simply magical."',
+        },
+        name: 'Andrea M.',
+        city: 'Costa Rica',
+      },
+      {
+        id: 'exp-002',
+        image: '/images/europe-2026/Carlos & María.webp',
+        quote: {
+          es: '"La organización del viaje fue impecable. Pudimos disfrutar cada ciudad sin estrés, todo estaba perfectamente planeado."',
+          en: '"The organization of the trip was impeccable. We could enjoy each city without stress, everything was perfectly planned."',
+        },
+        name: 'Carlos & María',
+        city: 'Colombia',
+      },
+      {
+        id: 'exp-003',
+        image: '/images/europe-2026/Sofia R.webp',
+        quote: {
+          es: '"El equilibrio entre actividades y tiempo libre fue perfecto. Tuvimos momentos para explorar solos y momentos compartidos del grupo."',
+          en: '"The balance between activities and free time was perfect. We had moments to explore on our own and moments together as a group."',
+        },
+        name: 'Sofía R.',
+        city: 'Costa Rica',
+      },
+    ],
     upcomingDates: [
       '2026-10-06', '2027-04-12', '2027-10-05',
     ],

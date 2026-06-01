@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { CheckCircle2, Clock3, Plane, Train } from 'lucide-react'
 import HeroCtaModal from '@/components/ui/HeroCtaModal'
+import ExperiencesSection from '@/components/ExperiencesSection'
 import { buildTourWhatsAppMessage, buildWhatsAppUrl } from '@/lib/whatsapp'
 
 export const dynamic = 'force-dynamic'
@@ -684,6 +685,42 @@ export default async function Europe2026Page({ params }: EuropePageProps) {
           </div>
         </div>
       </section>
+
+      <ExperiencesSection
+        experiences={[
+          {
+            id: 'exp-001',
+            image: '/images/europe-2026/Andrea M.webp',
+            quote: {
+              es: '"El Lago Bled fue uno de los lugares más impresionantes de todo el recorrido. La iglesia reflejada en el agua, simplemente mágico."',
+              en: '"Lake Bled was one of the most impressive places of the entire trip. The church reflected in the water, simply magical."',
+            },
+            name: 'Andrea M.',
+            city: 'Costa Rica',
+          },
+          {
+            id: 'exp-002',
+            image: '/images/europe-2026/Carlos & María.webp',
+            quote: {
+              es: '"La organización del viaje fue impecable. Pudimos disfrutar cada ciudad sin estrés, todo estaba perfectamente planeado."',
+              en: '"The organization of the trip was impeccable. We could enjoy each city without stress, everything was perfectly planned."',
+            },
+            name: 'Carlos & María',
+            city: 'Colombia',
+          },
+          {
+            id: 'exp-003',
+            image: '/images/europe-2026/Sofia R.webp',
+            quote: {
+              es: '"El equilibrio entre actividades y tiempo libre fue perfecto. Tuvimos momentos para explorar solos y momentos compartidos del grupo."',
+              en: '"The balance between activities and free time was perfect. We had moments to explore on our own and moments together as a group."',
+            },
+            name: 'Sofía R.',
+            city: 'Costa Rica',
+          },
+        ]}
+        locale={locale}
+      />
 
       <section className="bg-white py-16">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">

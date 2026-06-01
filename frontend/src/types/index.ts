@@ -29,6 +29,7 @@ export interface Tour {
   itinerary: ItineraryDay[]
   upcomingDates: string[]
   badge?: { es: string; en: string }
+  experiences?: TourExperience[]
 }
 
 export interface ItineraryDay {
@@ -38,6 +39,14 @@ export interface ItineraryDay {
   description: { es: string; en: string }
   activities: { es: string[]; en: string[] }
   overnight: { es: string; en: string }
+}
+
+export interface TourExperience {
+  id: string
+  image: string
+  quote: { es: string; en: string }
+  name: string
+  city?: string
 }
 
 export interface InsurancePlan {
