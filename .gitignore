@@ -24,4 +24,4 @@ frontend/tsconfig.tsbuildinfo
 *.key
 *.p12
 *.pfx
-**/*.md
+
