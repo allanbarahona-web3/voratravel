@@ -446,7 +446,7 @@ export default async function MedellinTourPage({ params }: MedellinPageProps) {
             </p>
             <div className="mt-6 inline-flex items-baseline gap-2 rounded-2xl border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-sm">
               <span className="text-sm font-medium text-white/80">{isEs ? 'Desde' : 'From'}</span>
-              <span className="text-3xl font-bold text-[#D6AE5C]">$699.95</span>
+              <span className="text-3xl font-bold text-[#fdf901]">$750.00</span>
               <span className="text-sm text-white/70">USD / {isEs ? 'persona' : 'person'}</span>
             </div>
             <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -473,7 +473,7 @@ export default async function MedellinTourPage({ params }: MedellinPageProps) {
               />
               <a
                 href={reserveNowWhatsApp}
-                className="reserve-btn inline-flex items-center justify-center rounded-xl bg-[#10B981] px-7 py-4 text-base font-semibold text-white"
+                className="reserve-btn inline-flex items-center justify-center rounded-xl bg-[#05f20d] px-7 py-4 text-base font-semibold text-black"
               >
                 {isEs ? 'Reserva $250.00' : 'Reserve $250.00'}
               </a>
