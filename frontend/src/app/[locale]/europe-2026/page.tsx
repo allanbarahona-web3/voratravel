@@ -514,6 +514,26 @@ export default async function Europe2026Page({ params }: EuropePageProps) {
           width: 0;
           height: 0;
         }
+
+        @keyframes shimmer {
+          0%, 100% {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+          }
+          50% {
+            box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+          }
+        }
+
+        .reserve-btn {
+          animation: shimmer 2s infinite;
+          transition: all 0.3s ease;
+        }
+
+        .reserve-btn:hover {
+          animation: none;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+        }
       `}</style>
 
       <section className="relative min-h-[82vh] overflow-hidden bg-[#003B73]">
@@ -572,7 +592,7 @@ export default async function Europe2026Page({ params }: EuropePageProps) {
               />
               <a
                 href={reserveNowWhatsApp}
-                className="inline-flex items-center justify-center rounded-xl bg-[#D6AE5C] px-7 py-4 text-base font-semibold text-[#1F2937] transition hover:bg-[#C89B4C]"
+                className="reserve-btn inline-flex items-center justify-center rounded-xl bg-[#10B981] px-7 py-4 text-base font-semibold text-white"
               >
                 {isEs ? 'Reserva $500.00' : 'Reserve $500.00'}
               </a>
