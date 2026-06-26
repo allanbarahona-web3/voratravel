@@ -21,8 +21,24 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const publishedTours = getPublishedTours()
+  
+  // Agrupar tours por región geográfica
+  const europeTours = publishedTours.filter((tour) => tour.region === 'europe')
+  const americaTours = publishedTours.filter((tour) => tour.region === 'other')
   const domesticTours = publishedTours.filter((tour) => tour.travelType === 'national-cr')
-  const outboundTours = publishedTours.filter((tour) => tour.travelType === 'outbound-from-cr')
+  
+  const regionNames = {
+    es: {
+      europe: 'Europa',
+      america: 'América',
+      domestic: 'Costa Rica',
+    },
+    en: {
+      europe: 'Europe',
+      america: 'Americas',
+      domestic: 'Costa Rica',
+    },
+  }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -87,13 +103,13 @@ export default function Navbar() {
                   {locale === 'es' ? 'Ver todos los tours' : 'View all tours'}
                 </Link>
 
-                {domesticTours.length > 0 && (
+                {europeTours.length > 0 && (
                   <div className="border-t border-gray-100 px-4 py-2">
                     <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                      {locale === 'es' ? 'Nacionales en CR' : 'Domestic in CR'}
+                      {regionNames[currentLocale].europe}
                     </p>
                     <div className="mt-2 flex flex-col">
-                      {domesticTours.map((tour) => (
+                      {europeTours.map((tour) => (
                         <Link
                           key={tour.id}
                           href={getTourHref(tour) as '/'}
@@ -106,13 +122,32 @@ export default function Navbar() {
                   </div>
                 )}
 
-                {outboundTours.length > 0 && (
+                {americaTours.length > 0 && (
                   <div className="border-t border-gray-100 px-4 py-2">
                     <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                      {locale === 'es' ? 'Salidas desde CR' : 'Departures from CR'}
+                      {regionNames[currentLocale].america}
                     </p>
                     <div className="mt-2 flex flex-col">
-                      {outboundTours.map((tour) => (
+                      {americaTours.map((tour) => (
+                        <Link
+                          key={tour.id}
+                          href={getTourHref(tour) as '/'}
+                          className="px-2 py-2 text-sm text-brand-navy hover:bg-brand-cream hover:text-brand-gold rounded transition-colors"
+                        >
+                          {tour.title[currentLocale]}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {domesticTours.length > 0 && (
+                  <div className="border-t border-gray-100 px-4 py-2">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                      {regionNames[currentLocale].domestic}
+                    </p>
+                    <div className="mt-2 flex flex-col">
+                      {domesticTours.map((tour) => (
                         <Link
                           key={tour.id}
                           href={getTourHref(tour) as '/'}
@@ -193,20 +228,68 @@ export default function Navbar() {
               {publishedTours.length > 0 && (
                 <div className="px-4 py-2 border-t border-gray-100">
                   <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-2">
-                    {locale === 'es' ? 'Tours publicados' : 'Published tours'}
+                    {locale === 'es' ? 'Tours por región' : 'Tours by region'}
                   </p>
-                  <div className="flex flex-col gap-1">
-                    {publishedTours.map((tour) => (
-                      <Link
-                        key={tour.id}
-                        href={getTourHref(tour) as '/'}
-                        onClick={() => setIsOpen(false)}
-                        className="px-3 py-2 text-sm text-brand-navy hover:bg-brand-cream hover:text-brand-gold rounded-md transition-colors"
-                      >
-                        {tour.title[currentLocale]}
-                      </Link>
-                    ))}
-                  </div>
+                  
+                  {europeTours.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-xs font-semibold text-brand-navy/60 mb-1">
+                        {regionNames[currentLocale].europe}
+                      </p>
+                      <div className="flex flex-col gap-1">
+                        {europeTours.map((tour) => (
+                          <Link
+                            key={tour.id}
+                            href={getTourHref(tour) as '/'}
+                            onClick={() => setIsOpen(false)}
+                            className="px-3 py-2 text-sm text-brand-navy hover:bg-brand-cream hover:text-brand-gold rounded-md transition-colors"
+                          >
+                            {tour.title[currentLocale]}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {americaTours.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-xs font-semibold text-brand-navy/60 mb-1">
+                        {regionNames[currentLocale].america}
+                      </p>
+                      <div className="flex flex-col gap-1">
+                        {americaTours.map((tour) => (
+                          <Link
+                            key={tour.id}
+                            href={getTourHref(tour) as '/'}
+                            onClick={() => setIsOpen(false)}
+                            className="px-3 py-2 text-sm text-brand-navy hover:bg-brand-cream hover:text-brand-gold rounded-md transition-colors"
+                          >
+                            {tour.title[currentLocale]}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {domesticTours.length > 0 && (
+                    <div>
+                      <p className="text-xs font-semibold text-brand-navy/60 mb-1">
+                        {regionNames[currentLocale].domestic}
+                      </p>
+                      <div className="flex flex-col gap-1">
+                        {domesticTours.map((tour) => (
+                          <Link
+                            key={tour.id}
+                            href={getTourHref(tour) as '/'}
+                            onClick={() => setIsOpen(false)}
+                            className="px-3 py-2 text-sm text-brand-navy hover:bg-brand-cream hover:text-brand-gold rounded-md transition-colors"
+                          >
+                            {tour.title[currentLocale]}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

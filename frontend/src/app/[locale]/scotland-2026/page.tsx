@@ -616,6 +616,11 @@ export default async function Scotland2026Page({ params }: ScotlandPageProps) {
             <div className="mt-2 text-sm text-white/80">
               {isEs ? '22 SEPTIEMBRE AL 4 OCTUBRE 2026' : 'SEPTEMBER 22 TO OCTOBER 4, 2026'}
             </div>
+            <div className="mt-6 inline-flex items-baseline gap-2 rounded-2xl border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-sm">
+              <span className="text-sm font-medium text-white/80">{isEs ? 'Desde' : 'From'}</span>
+              <span className="text-3xl font-bold text-[#D6AE5C]">$2,950</span>
+              <span className="text-sm text-white/70">USD / {isEs ? 'persona' : 'person'}</span>
+            </div>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <HeroCtaModal
                 tourSlug="tierras-celtas-espana-imperial"
