@@ -33,24 +33,24 @@ const heroImage = '/images/colombia/hero-medellin.webp'
 
 const gallery = [
   {
-    image: '/images/colombia/gallery-comuna-13.webp',
+    image: '/images/colombia/day-02-comuna13.webp',
     city: { es: 'Comuna 13', en: 'Comuna 13' },
   },
   {
-    image: '/images/colombia/gallery-guatape.webp',
+    image: '/images/colombia/day-03-guatape.webp',
     city: { es: 'Guatapé', en: 'Guatapé' },
   },
   {
-    image: '/images/colombia/gallery-penol.webp',
-    city: { es: 'Piedra del Peñol', en: 'Piedra del Peñol' },
+    image: '/images/colombia/day-04-libre.webp',
+    city: { es: 'Medellín Libre', en: 'Free Medellín' },
   },
   {
-    image: '/images/colombia/gallery-santa-fe.webp',
+    image: '/images/colombia/day-05-santafe.webp',
     city: { es: 'Santa Fe de Antioquia', en: 'Santa Fe de Antioquia' },
   },
   {
-    image: '/images/colombia/gallery-metrocable.webp',
-    city: { es: 'Metrocable', en: 'Metrocable' },
+    image: '/images/colombia/day-06-regreso.webp',
+    city: { es: 'Retorno', en: 'Return' },
   },
 ]
 
