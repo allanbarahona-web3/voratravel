@@ -48,10 +48,6 @@ const gallery = [
     image: '/images/colombia/day-05-santafe.webp',
     city: { es: 'Santa Fe de Antioquia', en: 'Santa Fe de Antioquia' },
   },
-  {
-    image: '/images/colombia/day-06-regreso.webp',
-    city: { es: 'Retorno', en: 'Return' },
-  },
 ]
 
 const days: DayPlan[] = [
