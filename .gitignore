@@ -25,3 +25,8 @@ frontend/tsconfig.tsbuildinfo
 *.p12
 *.pfx
 **/*.md
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 55597fd (photo update)
