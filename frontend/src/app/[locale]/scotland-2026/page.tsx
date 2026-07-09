@@ -339,8 +339,8 @@ const days: DayPlan[] = [
       {
         label: { es: 'Recorreremos:', en: 'We will explore:' },
         items: {
-          es: ['Puerta del Sol', 'Plaza Mayor', 'Mercado de San Miguel', 'Calle Mayor', 'Gran Vía'],
-          en: ['Puerta del Sol', 'Plaza Mayor', 'San Miguel Market', 'Calle Mayor', 'Gran Vía'],
+          es: ['Puerta del Sol', 'Plaza Mayor', 'Mercado de San Miguel','Gran Vía', 'Tour Bernabeu (opcional)'],
+          en: ['Puerta del Sol', 'Plaza Mayor', 'San Miguel Market', 'Gran Vía', 'Bernabeu Tour (optional)'],
         },
       },
     ],
@@ -554,7 +554,7 @@ export default async function Scotland2026Page({ params }: ScotlandPageProps) {
 
   const optionalByDate: Record<string, string[]> = {
     '24 SEP': ['Crucero por el río Támesis'],
-    '30 SEP': ['Guinness Storehouse', 'Malahide Castle', 'Howth Coastal Tour'],
+    '30 SEP': ['Guinness Storehouse', 'Jameson Distillery Tour', ],
   }
 
   const featuredExperiences = isEs
@@ -638,7 +638,7 @@ export default async function Scotland2026Page({ params }: ScotlandPageProps) {
             </div>
             <div className="mt-6 inline-flex items-baseline gap-2 rounded-2xl border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-sm">
               <span className="text-sm font-medium text-white/80">{isEs ? 'Desde' : 'From'}</span>
-              <span className="text-3xl font-bold text-[#FCD34D]">$2,950</span>
+              <span className="text-3xl font-bold text-[#D6AE5C]">$2,950</span>
               <span className="text-sm text-white/70">USD / {isEs ? 'persona' : 'person'}</span>
             </div>
             <div className="mt-7 flex flex-wrap items-center gap-3">
